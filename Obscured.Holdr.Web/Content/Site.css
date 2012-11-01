@@ -1,0 +1,99 @@
+﻿html {
+    background: #111 url('http://www.obscured.se/Content/Images/bg.jpg') no-repeat top center;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: transparent url('http://www.obscured.se/Content/Images/noise.png') top center;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+p {    
+    margin: 0 0 25px 0;
+}
+a {
+    color: #eee;
+    border-bottom: 1px dashed #666;
+    text-decoration: none;
+}
+    a:hover {
+        background: #222;
+        background: rgba(255,255,255,0.1);
+    }
+      
+h1 {
+    color: #fff;
+    font: 100 76px/95px "ff-tisa-web-pro-1","ff-tisa-web-pro-2",serif; /*"ratio-display-1","ratio-display-2",sans-serif; */
+    letter-spacing: 6px;
+    margin: 0 auto;
+    width: 355px;
+}
+    h1 span {
+        display: block;
+        padding: 15px 50px 20px;
+        text-align: center;
+    }
+    h1 small {
+        display: block;
+        font: 400 13px/1em "ratio-display-1","ratio-display-2",sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+    }
+h2 {
+    color: #666;
+    font: 500 12px/25px "ratio-display-1", "ratio-display-2", sans-serif;
+    margin: 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+h4 {
+    color: #EEEEEE;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+
+header {
+    display: block;
+    padding: 75px 20px 55px;
+}
+
+section {
+    font: 14px/25px "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", serif;
+    color: #eee;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 680px;
+}
+    section article {
+        background: #444444;
+        color: #C9E2B1;
+        float: left;
+        margin: 0 20px 20px 0;
+        padding: 10px;
+        width: 45%;
+        
+        filter: alpha(opacity=50);
+	    -khtml-opacity: 0.5;
+	    -moz-opacity: 0.5;
+	    opacity: 0.5;
+    }
+    section article:nth-child(2n+3) {
+		margin-right: 0 !important;
+	}
+    
+footer {
+    clear: both;
+    font: 14px/25px "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", serif;
+    text-align: center;
+    padding: 50px 0 75px;
+    opacity: 0.75;
+}
