@@ -4,7 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace Obscured.Holdr.Service
 {
@@ -32,7 +31,7 @@ namespace Obscured.Holdr.Service
             if (File.Exists(imgFile))
             {
                 var selectedImage = Image.FromFile(imgFile);
-                Image myImg = Instance().HardResizeImage(selectedImage, width, height);
+                var myImg = Instance().HardResize(selectedImage, width, height);
 
                 return Instance().ImageToByteArray(myImg);
             }
@@ -46,7 +45,7 @@ namespace Obscured.Holdr.Service
             if (File.Exists(imgPath))
             {
                 var selectedImage = Image.FromFile(imgPath);
-                Image myImg = Instance().HardResizeImage(selectedImage, width, height);
+                var myImg = Instance().HardResize(selectedImage, width, height);
 
                 return Instance().ImageToByteArray(myImg);
             }
@@ -63,55 +62,47 @@ namespace Obscured.Holdr.Service
         }
 
         //Overload for crop that default starts top left of the image.
-        public Image CropImage(Image image, int width, int height)
+        public Image Crop(Image image, int width, int height)
         {
-            return CropImage(image, width, height, 0, 0);
+            return Crop(image, width, height, 0, 0);
         }
 
         //The crop image sub
-        public Image CropImage(Image image, int width, int height, int startAtX, int startAtY)
+        public Image Crop(Image image, int width, int height, int startAtX, int startAtY)
         {
             try
             {
-                //check the image height against our desired image height
                 if (image.Height < height)
-                {
                     height = image.Height;
-                }
 
                 if (image.Width < width)
-                {
                     width = image.Width;
-                }
 
-                //create a bitmap window for cropping
-                var bmPhoto = new Bitmap(width, height); //, PixelFormat.Format64bppArgb
-                bmPhoto.SetResolution(720, 720);
-
-                //create a new graphics object from our image and set properties
-                Graphics grPhoto = Graphics.FromImage(bmPhoto);
-                grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                grPhoto.SmoothingMode = SmoothingMode.HighQuality;
-                grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                grPhoto.CompositingQuality = CompositingQuality.HighQuality;
-
-                //now do the crop
-                grPhoto.DrawImage(image, new Rectangle(0, 0, width, height), startAtX, startAtY, width, height, GraphicsUnit.Pixel);
-
-                // Save out to memory and get an image from it to send back out the method.
-                var encoderParameters = new EncoderParameters(2);
-                encoderParameters.Param[0] = new EncoderParameter(Encoder.Compression, 100);
-                encoderParameters.Param[1] = new EncoderParameter(Encoder.Quality, 100L);
                 var ms = new MemoryStream();
-                //bmPhoto.Save(mm, Image.RawFormat);
+                using (var bmPhoto = new Bitmap(width, height))
+                {
+                    bmPhoto.SetResolution(170, 170);
+                    bmPhoto.MakeTransparent();
 
-                bmPhoto.Save(ms, GetImageCodeInfo("image/jpeg"), encoderParameters);
-                image.Dispose();
-                bmPhoto.Dispose();
-                grPhoto.Dispose();
+                    var grPhoto = Graphics.FromImage(bmPhoto);
+                    grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    grPhoto.SmoothingMode = SmoothingMode.HighQuality;
+                    grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    grPhoto.CompositingQuality = CompositingQuality.HighQuality;
+                    grPhoto.DrawImage(image, new Rectangle(0, 0, width, height), startAtX, startAtY, width, height, GraphicsUnit.Pixel);
 
-                Image outimage = System.Drawing.Image.FromStream(ms);
-                return outimage;
+                    var encoderParameters = new EncoderParameters(2);
+                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Compression, 100);
+                    encoderParameters.Param[1] = new EncoderParameter(Encoder.Quality, 100L);
+
+                    bmPhoto.Save(ms, GetImageCodeInfo("image/jpeg"), encoderParameters);
+                    image.Dispose();
+                    bmPhoto.Dispose();
+                    grPhoto.Dispose();
+
+                    var outimage = Image.FromStream(ms);
+                    return outimage;
+                }
             }
             catch (Exception ex)
             {
@@ -120,20 +111,29 @@ namespace Obscured.Holdr.Service
         }
 
         //Hard resize attempts to resize as close as it can to the desired size and then crops the excess
-        public Image HardResizeImage(Image image, int width, int height)
+        public Image HardResize(Image image, int newWidth, int newHeight)
         {
-            Image resized = null;
-            resized = ResizeImage(image, width, height);
-            Image output = CropImage(resized, width, height);
-            //return the original resized image
+            var resized = Resize(image, newWidth, newHeight);
+
+            //Calculate where to crop center image
+            var startX = 0;
+            if (newWidth < resized.Width)
+                startX = (resized.Width / 2) - (newWidth / 2);
+
+            var startY = 0;
+            if (newHeight < resized.Height)
+                startY = (resized.Height / 2) - (newHeight / 2);
+
+            var output = Crop(resized, newWidth, newHeight, startX, startY);
+
             return output;
         }
 
         //Image resizing
-        public Image ResizeImage(Image image, int newWidth, int newHeight)
+        public Image Resize(Image image, int newWidth, int newHeight)
         {
-            int width = image.Width;
-            int height = image.Height;
+            var width = image.Width;
+            var height = image.Height;
             if (width > newWidth || height > newHeight)
             {
                 //The flips are in here to prevent any embedded image thumbnails -- usually from cameras
@@ -142,29 +142,29 @@ namespace Obscured.Holdr.Service
                 image.RotateFlip(RotateFlipType.Rotate180FlipX);
                 image.RotateFlip(RotateFlipType.Rotate180FlipX);
 
-                float ratio = 0;
+                float ratio;
                 if(newWidth > newHeight)
-                {
-                   if(width > height)
-                   {
-                       ratio = (float)width / (float)height;
-                       width = newWidth;
-                       height = Convert.ToInt32(Math.Round((float)width / ratio));
-                   }
-                   else
-                   {
-                       ratio = (float)width / (float)height;
-                       width = newWidth;
-                       height = Convert.ToInt32(Math.Round((float)width / ratio));
-                   }
-                }
-                else
                 {
                     if(width > height)
                     {
                         ratio = (float)width / (float)height;
+                        width = newWidth;
+                        height = Convert.ToInt32(Math.Round((float)width / ratio));
+                    }
+                    else
+                    {
+                        ratio = (float)width / (float)height;
+                        width = newWidth;
+                        height = Convert.ToInt32(Math.Round((float)width / ratio));
+                    }
+                }
+                else
+                {
+                    if (width > height)
+                    {
+                        ratio = (float) width/(float) height;
                         height = newHeight;
-                        width = Convert.ToInt32(Math.Round((float)height * ratio));
+                        width = Convert.ToInt32(Math.Round((float) height*ratio));
                     }
                     else
                     {
@@ -174,16 +174,20 @@ namespace Obscured.Holdr.Service
                     }
                 }
 
-                //return the resized image
                 var b = new Bitmap(width, height);
-                var g = Graphics.FromImage(b);
+                b.MakeTransparent();
 
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.CompositingQuality = CompositingQuality.HighQuality;
-                g.DrawImage(image, 0, 0, width, height);
-                g.Dispose();
+                using (var g = Graphics.FromImage(b))
+                {
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.DrawImage(image, 0, 0, width, height);
+                    g.Dispose();
+                }
+
                 return b;
             }
 
