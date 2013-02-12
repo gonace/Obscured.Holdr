@@ -142,37 +142,12 @@ namespace Obscured.Holdr.Service
                 image.RotateFlip(RotateFlipType.Rotate180FlipX);
                 image.RotateFlip(RotateFlipType.Rotate180FlipX);
 
-                float ratio;
-                if(newWidth > newHeight)
-                {
-                    if(width > height)
-                    {
-                        ratio = (float)width / (float)height;
-                        width = newWidth;
-                        height = Convert.ToInt32(Math.Round((float)width / ratio));
-                    }
-                    else
-                    {
-                        ratio = (float)width / (float)height;
-                        width = newWidth;
-                        height = Convert.ToInt32(Math.Round((float)width / ratio));
-                    }
-                }
-                else
-                {
-                    if (width > height)
-                    {
-                        ratio = (float) width/(float) height;
-                        height = newHeight;
-                        width = Convert.ToInt32(Math.Round((float) height*ratio));
-                    }
-                    else
-                    {
-                        ratio = (float)width / (float)height;
-                        height = newHeight;
-                        width = Convert.ToInt32(Math.Round((float)height * ratio));
-                    }
-                }
+                var ratioX = (double)newWidth / width;
+                var ratioY = (double)newHeight / height;
+                var ratio = Math.Max(ratioX, ratioY);
+
+                width = (int)(image.Width * ratio);
+                height = (int)(image.Height * ratio);
 
                 var b = new Bitmap(width, height);
                 b.MakeTransparent();
