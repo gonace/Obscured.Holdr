@@ -50,3 +50,7 @@ _ReSharper*/
 
 ## Office Temp Files
 ~$*
+
+
+##Include
+!nugetss.exe
