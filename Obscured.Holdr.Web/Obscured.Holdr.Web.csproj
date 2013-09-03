@@ -158,10 +158,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\ElmahController.cs" />
-    <Compile Include="Areas\Admin\Controllers\LogonController.cs" />
-    <Compile Include="Areas\Admin\Models\LogonModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filter\CustomAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -217,17 +213,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\" />
     <Folder Include="Helpers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Admin\Views\Logon\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Obscured.Holdr\Obscured.Holdr.csproj">

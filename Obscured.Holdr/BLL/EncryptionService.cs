@@ -39,7 +39,7 @@ namespace Obscured.Holdr.BLL
             }
             catch (Exception e)
             {
-                _logger.Warn(String.Format("Unable to get md5 hash for data {0}", data));
+                _logger.Warn(String.Format("Unable to get md5 hash for data {0} with exeption: {1}" , data, e.Message ));
             }
             return null;
         }
@@ -52,7 +52,7 @@ namespace Obscured.Holdr.BLL
                 var cryptHandler = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 var hash = cryptHandler.ComputeHash(textBytes);
                 var ret = "";
-                foreach (byte a in hash)
+                foreach (var a in hash)
                 {
                     if (a < 16)
                         ret += "0" + a.ToString("x");
@@ -63,7 +63,7 @@ namespace Obscured.Holdr.BLL
             }
             catch (Exception e)
             {
-                _logger.Warn(String.Format("Unable to get md5 hash for data {0}", data));
+                _logger.Warn(String.Format("Unable to get md5 hash for data {0} with exception: {1}", data, e.Message));
             }
             return null;
         }
