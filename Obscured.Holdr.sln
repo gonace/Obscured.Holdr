@@ -1,11 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obscured.Holdr.Web", "Obscured.Holdr.Web\Obscured.Holdr.Web.csproj", "{56049770-E539-4FDE-B8B6-8DFDD98C44AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obscured.Holdr.Web.Tests", "Obscured.Holdr.Web.Tests\Obscured.Holdr.Web.Tests.csproj", "{A970D164-92D6-44B4-8F69-C3850F8C61B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obscured.Holdr", "Obscured.Holdr\Obscured.Holdr.csproj", "{1D95B155-D341-4000-AF3A-B8C79716F044}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1F8939D1-078F-444A-9CA6-EC5CACD3F273}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

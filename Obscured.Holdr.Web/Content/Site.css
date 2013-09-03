@@ -1,11 +1,10 @@
 ﻿html {
-    background: #111 url('http://www.obscured.se/Content/Images/bg.jpg') no-repeat top center;
+    background: #111;
     height: 100%;
     padding: 0;
     margin: 0;
 }
 body {
-    background: transparent url('http://www.obscured.se/Content/Images/noise.png') top center;
     margin: 0;
     padding: 0;
     min-height: 100%;
