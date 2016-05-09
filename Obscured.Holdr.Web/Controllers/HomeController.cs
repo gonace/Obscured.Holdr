@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Runtime.Remoting.Contexts;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Obscured.Holdr.Service;
 
 namespace Obscured.Holdr.Web.Controllers

@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using Autofac;
-using Autofac.Integration.Mvc;
-using Obscured.Holdr.Service;
-using Obscured.Holdr.Web.Filter;
 
 namespace Obscured.Holdr.Web
 {
@@ -52,21 +43,6 @@ namespace Obscured.Holdr.Web
             AreaRegistration.RegisterAllAreas();
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            AutoFacInitializer.Initialize();
-        }
-
-        public static class AutoFacInitializer
-        {
-            public static void Initialize()
-            {
-                var builder = new ContainerBuilder();
-                builder.RegisterControllers(typeof(MvcApplication).Assembly);
-                //builder.Register(c => new CustomAuthorizeAttribute(connectionString)).As<ICityControllerUnitOfWork>().InstancePerDependency();
-                //builder.Register(c => new ImageService)).As<IImageService>().InstancePerDependency();
-                builder.Register(c => new CustomAuthorizeAttribute()).As<AuthorizeAttribute>().InstancePerDependency();
-                var container = builder.Build();
-                DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            }
         }
     }
 }

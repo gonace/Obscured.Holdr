@@ -54,3 +54,7 @@ _ReSharper*/
 
 ##Include
 !nugetss.exe
+
+
+#NuGet packages
+/[Pp]ackages/*
