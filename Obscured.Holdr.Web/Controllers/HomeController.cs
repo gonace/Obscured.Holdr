@@ -24,29 +24,27 @@ namespace Obscured.Holdr.Web.Controllers
                 var imageFile = imageService.GetImageRandom(width, height, imagePath);
                 return File(imageFile, "image/jpeg");
             }
-            else
-            {
-                try
-                {
-                    byte[] imageFile;
-                    var imgPath = Server.MapPath("/Content/Images/") + categoryFolder + image + ".jpg";
-                    var tmpFile = imageService.GetImageByName(width, height, imgPath);
-                    if (tmpFile.Length > 0)
-                    {
-                        imageFile = tmpFile;
-                    }
-                    else
-                    {
-                        var imagePath = Server.MapPath("/Content/Images/") + categoryFolder;
-                        imageFile = imageService.GetImageRandom(width, height, imagePath);
-                    }
 
-                    return File(imageFile, "image/jpeg");
-                }
-                catch (Exception ex)
+            try
+            {
+                byte[] imageFile;
+                var imgPath = Server.MapPath("/Content/Images/") + categoryFolder + image + ".jpg";
+                var tmpFile = imageService.GetImageByName(width, height, imgPath);
+                if (tmpFile.Length > 0)
                 {
-                    throw new ApplicationException("Error: " + ex.Message);
+                    imageFile = tmpFile;
                 }
+                else
+                {
+                    var imagePath = Server.MapPath("/Content/Images/") + categoryFolder;
+                    imageFile = imageService.GetImageRandom(width, height, imagePath);
+                }
+
+                return File(imageFile, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error: " + ex.Message);
             }
         }
     }

@@ -16,6 +16,12 @@ namespace Obscured.Holdr.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+                "UtilityRoute", // Route name
+                "utility/{action}", // URL with parameters
+                new { controller = "Utility", action = "Ip" }
+            );
 
             routes.MapRoute(
                 "CategoryRoute", // Route name
