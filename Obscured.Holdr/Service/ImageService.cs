@@ -18,7 +18,6 @@ namespace Obscured.Holdr.Service
             return new ImageService();
         }
 
-
         //Get random image
         public byte[] GetImageRandom(int width, int height, string filePath)
         {
@@ -91,9 +90,14 @@ namespace Obscured.Holdr.Service
                     grPhoto.CompositingQuality = CompositingQuality.HighQuality;
                     grPhoto.DrawImage(image, new Rectangle(0, 0, width, height), startAtX, startAtY, width, height, GraphicsUnit.Pixel);
 
-                    var encoderParameters = new EncoderParameters(2);
-                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Compression, 100);
-                    encoderParameters.Param[1] = new EncoderParameter(Encoder.Quality, 100L);
+                    var encoderParameters = new EncoderParameters(2)
+                    {
+                        Param =
+                        {
+                            [0] = new EncoderParameter(Encoder.Compression, 100),
+                            [1] = new EncoderParameter(Encoder.Quality, 100L)
+                        }
+                    };
 
                     bmPhoto.Save(ms, GetImageCodeInfo("image/jpeg"), encoderParameters);
                     image.Dispose();

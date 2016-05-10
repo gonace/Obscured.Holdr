@@ -9,6 +9,7 @@ obj/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
+.vs/
 
 ##OS junk file(s)
 [Tt]humbs.db

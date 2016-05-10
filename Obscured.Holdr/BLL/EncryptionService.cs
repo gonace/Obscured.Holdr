@@ -39,7 +39,7 @@ namespace Obscured.Holdr.BLL
             }
             catch (Exception e)
             {
-                _logger.Warn(String.Format("Unable to get md5 hash for data {0} with exeption: {1}" , data, e.Message ));
+                _logger.Warn($"Unable to get md5 hash for data {data} with exeption: {e.Message}");
             }
             return null;
         }
@@ -63,7 +63,7 @@ namespace Obscured.Holdr.BLL
             }
             catch (Exception e)
             {
-                _logger.Warn(String.Format("Unable to get md5 hash for data {0} with exception: {1}", data, e.Message));
+                _logger.Warn($"Unable to get md5 hash for data {data} with exception: {e.Message}");
             }
             return null;
         }
