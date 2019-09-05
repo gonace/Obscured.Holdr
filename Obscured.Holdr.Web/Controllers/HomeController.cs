@@ -15,10 +15,10 @@ namespace Obscured.Holdr.Web.Controllers
         {
             var imageService = ImageService.Instance();
             var categoryFolder = "boobs\\";
-            if (!String.IsNullOrEmpty(category))
+            if (!string.IsNullOrEmpty(category))
                 categoryFolder = category + "\\";
 
-            if(String.IsNullOrEmpty(image))
+            if(string.IsNullOrEmpty(image))
             {
                 var imagePath = Server.MapPath("/Content/Images/") + categoryFolder;
                 var imageFile = imageService.GetImageRandom(width, height, imagePath);
