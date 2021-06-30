@@ -8,6 +8,6 @@ updates:
       timezone: Europe/Stockholm
     open-pull-requests-limit: 0
     reviewers:
-        - "gonace"
+      - "gonace"
     labels:
       - "dependencies"
